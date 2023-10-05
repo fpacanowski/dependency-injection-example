@@ -1,27 +1,16 @@
-require 'net/http'
-
 class WeatherService
+  def initialize
+    @weather_client = WeatherClient.new
+  end
+
   def call(locations)
     locations.map do |city, coords|
-      weather = get_weather(*coords)
+      weather = @weather_client.get_weather(*coords)
       "Weather in #{city}: #{present(weather)}"
     end
   end
 
   private
-
-  def get_weather(lattitude, longitude)
-    params = {
-      q: [lattitude, longitude].join(','),
-      key: 'efa873646d8043d39c5153004232609',
-    }
-    uri = URI::HTTP.build(
-      host: 'api.weatherapi.com',
-      path: '/v1/current.json',
-      query: params.to_query
-    )
-    JSON.parse(Net::HTTP.get(uri))
-  end
 
   def present(weather)
     cloud_cover = weather.dig('current', 'cloud')
