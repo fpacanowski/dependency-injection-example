@@ -13,17 +13,15 @@ class WeatherService
   private
 
   def present(weather)
-    cloud_cover = weather.dig('current', 'cloud')
-    temperature = weather.dig('current', 'temp_c')
     cloud_text =
-      if cloud_cover <= 20
+      if weather.cloud_cover <= 20
         'clear'
-      elsif cloud_cover <= 70
+      elsif weather.cloud_cover <= 70
         'partially clouded'
       else
         'clouded'
       end
-    formatted_temperature = format('%.1f', temperature)
-    "the sky is #{cloud_text} (#{cloud_cover}% clouds) and the temperature is #{formatted_temperature} C"
+    formatted_temperature = format('%.1f', weather.temperature)
+    "the sky is #{cloud_text} (#{weather.cloud_cover}% clouds) and the temperature is #{formatted_temperature} C"
   end
 end

@@ -5,10 +5,10 @@ describe WeatherService do
 
   specify do
     allow(client).to receive(:get_weather).with(51.11,17.02).and_return(
-      {'current' => {'cloud' => 10, 'temp_c' => 22.0}}
+      Weather.new(cloud_cover: 10, temperature: 22.0)
     )
     allow(client).to receive(:get_weather).with(52.23,21.01).and_return(
-      {'current' => {'cloud' => 30, 'temp_c' => 23.0}}
+      Weather.new(cloud_cover: 30, temperature: 23.0)
     )
 
     expect(service.call([
@@ -22,7 +22,7 @@ describe WeatherService do
 
   specify do
     allow(client).to receive(:get_weather).with(51.11,17.02).and_return(
-      {'current' => {'cloud' => 10, 'temp_c' => 22.0}}
+      Weather.new(cloud_cover: 10, temperature: 22.0)
     )
 
     expect(service.call([['Wroclaw', [51.11, 17.02]]])).to eq([

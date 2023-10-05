@@ -11,6 +11,10 @@ class WeatherClient
       path: '/v1/current.json',
       query: params.to_query
     )
-    JSON.parse(Net::HTTP.get(uri))
+    response = JSON.parse(Net::HTTP.get(uri))
+    Weather.new(
+      cloud_cover: response.dig('current', 'cloud'),
+      temperature: response.dig('current', 'temp_c'),
+    )
   end
 end
