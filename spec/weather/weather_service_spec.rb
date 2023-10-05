@@ -1,11 +1,7 @@
 describe WeatherService do
-  subject(:service) { described_class.new }
+  subject(:service) { described_class.new(client) }
 
   let(:client) { instance_double(WeatherClient) }
-
-  before do
-    allow(WeatherClient).to receive(:new).and_return(client)
-  end
 
   specify do
     allow(client).to receive(:get_weather).with(51.11,17.02).and_return(

@@ -1,6 +1,6 @@
 class WeatherService
-  def initialize
-    @weather_client = WeatherClient.new
+  def initialize(weather_client)
+    @weather_client = weather_client
   end
 
   def call(locations)
