@@ -1,7 +1,8 @@
 describe WeatherService do
-  subject(:service) { described_class.new(client) }
+  subject(:service) { described_class.new(client, presenter) }
 
   let(:client) { instance_double(WapiWeatherClient) }
+  let(:presenter) { WeatherPresenter.new }
 
   specify do
     allow(client).to receive(:get_weather).with(51.11,17.02).and_return(
