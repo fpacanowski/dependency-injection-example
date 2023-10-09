@@ -1,6 +1,6 @@
 require 'net/http'
 
-class WeatherClient
+class WapiWeatherClient
   def get_weather(lattitude, longitude)
     params = {
       q: [lattitude, longitude].join(','),

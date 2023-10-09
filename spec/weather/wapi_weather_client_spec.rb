@@ -1,4 +1,4 @@
-describe WeatherClient do
+describe WapiWeatherClient do
   subject(:client) { described_class.new }
 
   specify do
