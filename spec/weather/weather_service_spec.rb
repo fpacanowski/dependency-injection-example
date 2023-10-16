@@ -1,11 +1,19 @@
 describe WeatherService do
   subject(:service) { described_class.new }
 
+  let(:client) { instance_double(WeatherClient) }
+
+  before do
+    allow(WeatherClient).to receive(:new).and_return(client)
+  end
+
   specify do
-    stub_request(:get, 'http://api.weatherapi.com/v1/current.json?key=efa873646d8043d39c5153004232609&q=51.11,17.02').
-      to_return({status: 200, body: {current: {cloud: 10, temp_c: 22.0}}.to_json})
-    stub_request(:get, 'http://api.weatherapi.com/v1/current.json?key=efa873646d8043d39c5153004232609&q=52.23,21.01').
-      to_return({status: 200, body: {current: {cloud: 30, temp_c: 23.0}}.to_json})
+    allow(client).to receive(:get_weather).with(51.11,17.02).and_return(
+      {'current' => {'cloud' => 10, 'temp_c' => 22.0}}
+    )
+    allow(client).to receive(:get_weather).with(52.23,21.01).and_return(
+      {'current' => {'cloud' => 30, 'temp_c' => 23.0}}
+    )
 
     expect(service.call([
       ['Wroclaw', [51.11, 17.02]],
@@ -17,8 +25,9 @@ describe WeatherService do
   end
 
   specify do
-    stub_request(:get, 'http://api.weatherapi.com/v1/current.json?key=efa873646d8043d39c5153004232609&q=51.11,17.02').
-      to_return({status: 200, body: {current: {cloud: 10, temp_c: 22}}.to_json})
+    allow(client).to receive(:get_weather).with(51.11,17.02).and_return(
+      {'current' => {'cloud' => 10, 'temp_c' => 22.0}}
+    )
 
     expect(service.call([['Wroclaw', [51.11, 17.02]]])).to eq([
       "Weather in Wroclaw: the sky is clear (10% clouds) and the temperature is 22.0 C",
